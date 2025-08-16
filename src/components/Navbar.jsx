@@ -1,5 +1,5 @@
 import '../styles/Navbar.css';
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { HashLink } from 'react-router-hash-link';
 import IconButton from '@mui/joy/IconButton';
@@ -11,7 +11,7 @@ import { isMobile } from 'react-device-detect';
 function Navbar() {
   const [expandedNavbar, setExpandedNavbar] = useState(false);
   const [scrollDirection, setScrollDirection] = useState('up');
-  const [scrollTop, setScrollTop] = useState(0);
+  const scrollTopRef = useRef(0);
   const [isTop, setIsTop] = useState(true);
   const location = useLocation();
   const navigate = useNavigate();
@@ -21,20 +21,20 @@ function Navbar() {
   useEffect(() => {
     setExpandedNavbar(false);
     setIsTop(true);
-    setScrollTop(window.scrollY);
+    scrollTopRef.current = window.scrollY;
   }, [location]);
 
   useEffect(() => {
     const handleScroll = () => {
       const currentScroll = window.scrollY;
       setIsTop(currentScroll === 0);
-      setScrollDirection(currentScroll > scrollTop ? 'down' : 'up');
-      setScrollTop(currentScroll);
+      setScrollDirection(currentScroll > scrollTopRef.current ? 'down' : 'up');
+      scrollTopRef.current = currentScroll;
     };
 
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
-  }, [scrollTop]);
+  }, []);
 
   useEffect(() => {
     if (expandedNavbar) {
