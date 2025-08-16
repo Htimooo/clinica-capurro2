@@ -279,17 +279,25 @@ const ContactForm = () => {
           variant="contained"
           color="primary"
           size="large"
-          /* disabled={isSubmitting || !recaptchaLoaded} */
+          disabled={isSubmitting || !recaptchaLoaded}
           sx={{
             alignSelf: "center",
             padding: "0.8rem 2rem",
             mt: 3,
             width: "auto",
-            backgroundColor: "#45c07d"
+            backgroundColor: "#45c07d",
+            "&.Mui-disabled": {
+              backgroundColor: "#bdbdbd",
+              color: "#666",
+            },
           }}
           startIcon={isSubmitting ? <CircularProgress size={24} /> : null}
         >
-          {isSubmitting ? "Enviando..." : "Enviar"}
+          {isSubmitting
+            ? "Enviando..."
+            : !recaptchaLoaded
+            ? "Cargando..."
+            : "Enviar"}
         </Button>
       </Stack>
     </Box>
