@@ -1,0 +1,51 @@
+#grilla{
+    display:grid;
+    grid-template-columns: repeat(4, 1fr); /* Cuatro columnas por defecto (desktop) */
+    gap: 16px; /* Espacio entre las imágenes */
+    padding: 16px; /* Espacio alrededor de la grilla */
+  }
+  .tratamientoOverlay {   
+    position: absolute;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 11, 186, 0.5);
+  }
+
+  /* Ajuste para pantallas pequeñas (mobile) */
+  @media (max-width: 600px) {
+    #grilla {
+     display: flex;
+     flex-direction: column; 
+      align-items: center;
+      justify-content: center;
+    }
+  }
+  .tratamiento{
+    width: 100%;   
+    height: calc(50vh - 100px);
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    text-align: center;    
+    background-image: url('../assets/tratamientos.webp');
+    background-size: cover; /* Ajusta el tamaño de la imagen al contenedor */
+    background-position: center; /* Centra la imagen en el contenedor */
+    background-repeat: no-repeat; /* Evita la repetición de la imagen */
+    color: #f0f0f0;
+    position:relative;
+  }
+  
+  .tratamiento h1 {   
+    z-index: 100;
+    margin: auto .5rem;
+    font-size: 3rem;
+    color: #fafafa;
+   
+  }
+  @media only screen and (max-width: 600px) {
+    .tratamiento h1 {
+      font-size: 2rem;
+      
+    }}
