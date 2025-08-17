@@ -7,6 +7,8 @@ import MenuIcon from '@mui/icons-material/Menu';
 import CloseIcon from '@mui/icons-material/Close';
 import logo from '../assets/logotipo.png';
 import { isMobile } from 'react-device-detect';
+import LoginModal from './LoginModal';
+import { useAuth } from '../auth/AuthProvider';
 
 function Navbar() {
   const [expandedNavbar, setExpandedNavbar] = useState(false);
@@ -15,6 +17,13 @@ function Navbar() {
   const [isTop, setIsTop] = useState(true);
   const location = useLocation();
   const navigate = useNavigate();
+  const { user, logout } = useAuth();
+  const [loginOpen, setLoginOpen] = useState(false);
+  const [loginMode, setLoginMode] = useState('login');
+  const openLogin = (mode = 'login') => {
+    setLoginMode(mode);
+    setLoginOpen(true);
+  };
 
   const isHome = location.pathname === '/' || location.hash === '#';
 
@@ -81,6 +90,20 @@ function Navbar() {
             <Link to="/financiamiento">Financiamiento</Link>
             <Link to="/blog">Blog</Link>
             <HashLink to="/#contacto">Contacto</HashLink>
+            {user ? (
+              <>
+                <button className="login-button" onClick={() => openLogin('change')}>
+                  Cambiar contraseña
+                </button>
+                <button className="login-button" onClick={logout}>
+                  Salir
+                </button>
+              </>
+            ) : (
+              <button className="login-button" onClick={() => openLogin('login')}>
+                Ingresar
+              </button>
+            )}
           </div>
         </div>
       ) : (
@@ -95,10 +118,23 @@ function Navbar() {
               <Link to="/financiamiento">Financiamiento</Link>
               <Link to="/blog">Blog</Link>
               <HashLink to="/#contacto">Contacto</HashLink>
+              {user ? (
+                <>
+                  <button className="login-button" onClick={() => openLogin('change')}>
+                    Cambiar contraseña
+                  </button>
+                  <button className="login-button" onClick={logout}>Salir</button>
+                </>
+              ) : (
+                <button className="login-button" onClick={() => openLogin('login')}>
+                  Ingresar
+                </button>
+              )}
             </div>
           </div>
         </div>
       )}
+      <LoginModal open={loginOpen} onClose={() => setLoginOpen(false)} mode={loginMode} />
     </>
   );
 }
